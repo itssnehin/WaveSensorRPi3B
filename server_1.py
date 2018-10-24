@@ -1,4 +1,5 @@
 import socket
+import prac7
 
 host = ''
 port = 5560
@@ -23,21 +24,24 @@ def setupConnection():
 
 def tolerance():
     reply = "State new tolerance value: "
+    prac7.set_tolerance()
     return reply
 
 def datalogs():
-    reply = "Printing the data logs of the duration of the wave in s: "
+    reply = "Printing the average frequency of the of the wave after every 10 waves: "
+    prac7.printFreq()
     
     return reply
 
 def start():
     reply = "Starting application"
+    prac7.main()
     
     return reply
 
 def stop():
     reply = "Stopping application"
-    
+    prac
     return reply
 
 def shutdown():
@@ -55,6 +59,9 @@ def dataTransfer(conn):
         command = dataMessage[0]
         if command == '1':
             reply = tolerance()
+            conn.sendall(str.encode(reply))
+            data = conn.recv(1024) # receive the data
+            data = data.decode('utf-8')
         elif command == '2':
             reply = datalogs()
         elif command == '3':
